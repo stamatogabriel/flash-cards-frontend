@@ -1,10 +1,23 @@
+"use client";
+
+import { FlashCard } from "@/features/FlashCards/components/FlashCards";
+import { useGetFlashCardsQuery } from "@/features/FlashCards/flashCardsSlice";
+import TopicsList from "@/features/FlashCards/TopicsList";
 import type { Metadata } from "next";
-import { Counter } from "./components/counter/Counter";
 
 export default function IndexPage() {
-  return <Counter />;
+  const { data: cards } = useGetFlashCardsQuery({});
+
+  return (
+    <>
+      <TopicsList />
+      <FlashCard
+        cards={cards?.data ?? []}
+      />
+    </>
+  );
 }
 
-export const metadata: Metadata = {
-  title: "Redux Toolkit",
-};
+// export const metadata: Metadata = {
+//   title: "Redux Toolkit",
+// };
