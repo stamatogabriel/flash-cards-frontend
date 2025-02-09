@@ -455,6 +455,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@mercadopago/sdk-js@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@mercadopago/sdk-js/-/sdk-js-0.0.3.tgz#f54eee5faa7d8d7253b5c03b0ef09dcb8229698a"
+  integrity sha512-kO48DNLHdfFAp3on12nuKdqNlEmw1x3+nM6wLd04BdWOXoFcAhkNMQV3AyUIanXdO/bB/dENakdacLT29297EQ==
+
+"@mercadopago/sdk-react@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@mercadopago/sdk-react/-/sdk-react-0.0.23.tgz#c612b4f49aba45d9cf152be411edd401d7dcf80f"
+  integrity sha512-YdIiSBWNCdcKEK63WkLhU5a4+25EqRrXYXMJ7SJZNtAPrHkdl9sPX2AgB4VopyrDouaErtylNqkk9xe4IRQOhQ==
+  dependencies:
+    "@mercadopago/sdk-js" "^0.0.3"
+
 "@mui/core-downloads-tracker@^6.4.1":
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-6.4.1.tgz#5f9b31768c5be562522c5e5816f3c4f8bada1202"
@@ -755,6 +767,13 @@
   integrity sha512-9P/o1IGdfmQxrujGbIMDyYaaCykhLKc0NGCtYcECNUr9UAaDe4gwvV9bR6tvd5Br1SG0j+PBpbKr2UYY8CwqSw==
   dependencies:
     csstype "^3.0.2"
+
+"@types/redux-persist@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@types/redux-persist/-/redux-persist-4.3.1.tgz#aa4c876859e0bea5155e5f7980e5b8c4699dc2e6"
+  integrity sha512-YkMnMUk+4//wPtiSTMfsxST/F9Gh9sPWX0LVxHuOidGjojHtMdpep2cYvQgfiDMnj34orXyZI+QJCQMZDlafKA==
+  dependencies:
+    redux-persist "*"
 
 "@types/use-sync-external-store@^0.0.6":
   version "0.0.6"
@@ -1138,6 +1157,18 @@ cookie@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.1.tgz#2f73c42142d5d5cf71310a74fc4ae61670e5dbc9"
   integrity sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==
+
+cookie@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-1.0.2.tgz#27360701532116bd3f1f9416929d176afe1e4610"
+  integrity sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==
+
+cookies-next@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/cookies-next/-/cookies-next-5.1.0.tgz#b6e1c7d11a4e1d38ed0586a7847cd0f403c539e1"
+  integrity sha512-9Ekne+q8hfziJtnT9c1yDUBqT0eDMGgPrfPl4bpR3xwQHLTd/8gbSf6+IEkP/pjGsDZt1TGbC6emYmFYRbIXwQ==
+  dependencies:
+    cookie "^1.0.1"
 
 cosmiconfig@^7.0.0:
   version "7.1.0"
@@ -2580,6 +2611,11 @@ react@^19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-19.0.0.tgz#6e1969251b9f108870aa4bff37a0ce9ddfaaabdd"
   integrity sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==
+
+redux-persist@*, redux-persist@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"
+  integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
 
 redux-thunk@^3.1.0:
   version "3.1.0"

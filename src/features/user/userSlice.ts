@@ -1,35 +1,24 @@
-import { IUser, IUserListRequest, IUserListResponse } from './types/User'
+import { IUser } from './types/User'
 import { apiSlice } from '../api/apiSlice'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const endpointUrl = '/users'
 
-function parseQueryParams(params: IUserListRequest) {
-  const queryParams = new URLSearchParams()
-
-  if (params.page) {
-    queryParams.append('page', params.page.toString())
-  }
-
-  if (params.limit) {
-    queryParams.append('limit', params.limit.toString())
-  }
-
-  if (params.search) {
-    queryParams.append('search', params.search)
-  }
-
-  return queryParams.toString()
+interface UserState {
+  user: IUser | null;
+  loading: boolean;
+  error: string | null;
 }
 
-function getUsers({ page = 1, limit = 10, search = '' }) {
-  const queryParams = parseQueryParams({ page, limit, search })
-
-  return `${endpointUrl}?${queryParams}`
-}
+const initialState: UserState = {
+  user: null,
+  loading: false,
+  error: null,
+};
 
 function deleteUserMutation(user: IUser) {
   return {
-    url: `${endpointUrl}/${user.id}`,
+    url: `${endpointUrl}/${user._id}`,
     method: 'DELETE',
   }
 }
@@ -44,7 +33,7 @@ function createUserMutation(user: IUser) {
 
 function updateUserMutation(user: IUser) {
   return {
-    url: `${endpointUrl}/${user.id}`,
+    url: `${endpointUrl}/${user._id}`,
     method: 'PUT',
     body: user,
   }
@@ -56,10 +45,6 @@ function getUser({ id }: { id: string }) {
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
-    getListUsers: query<IUserListResponse, IUserListRequest>({
-      query: getUsers,
-      providesTags: ['users'],
-    }),
     deleteUser: mutation<void, IUser>({
       query: deleteUserMutation,
       invalidatesTags: ['users'],
@@ -79,10 +64,45 @@ export const userApiSlice = apiSlice.injectEndpoints({
   })
 })
 
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      userApiSlice.endpoints.createUser.matchFulfilled,
+      (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
+      });
+    builder.addMatcher(
+      userApiSlice.endpoints.updateUser.matchFulfilled,
+      (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
+      });
+    builder.addMatcher(
+      userApiSlice.endpoints.getUser.matchFulfilled,
+      (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
+      });
+  },
+});
+
 export const {
-  useGetListUsersQuery,
   useDeleteUserMutation,
   useCreateUserMutation,
   useUpdateUserMutation,
   useGetUserQuery,
 } = userApiSlice;
+
+export const { setLoading, setError } = userSlice.actions;
+
+export default userSlice.reducer;
+

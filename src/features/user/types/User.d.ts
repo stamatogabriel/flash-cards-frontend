@@ -1,6 +1,6 @@
 export interface IUser {
-  id: number
-  fullname: string
+  _id: number
+  username: string
   email: string
   phone: string
   type: 'admin' | 'teacher' | 'student'

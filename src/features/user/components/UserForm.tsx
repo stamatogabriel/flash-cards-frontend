@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Box,
   Button,
@@ -32,7 +34,6 @@ export function UserForm({
   onSubmit,
 }: // handleToggle,
 Props) {
-  console.log(user);
   const {
     register,
     handleSubmit,
@@ -45,7 +46,7 @@ Props) {
   });
 
   return !user && isLoading ? (
-    <Box p={2}>
+    <Box>
       <Skeleton
         variant="rectangular"
         height={40}
@@ -68,21 +69,21 @@ Props) {
       />
     </Box>
   ) : (
-    <Box p={2}>
+    <Box>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
           <Grid size={12}>
             <FormControl fullWidth>
               <TextField
                 label="Nome"
-                {...register("fullname")}
+                {...register("username")}
                 disabled={isdisabled}
-                focused={!!user?.fullname}
-                defaultValue={user?.fullname}
+                focused={!!user?.username}
+                defaultValue={user?.username}
                 helperText={
-                  errors.fullname ? String(errors.fullname.message) : ""
+                  errors.username ? String(errors.username.message) : ""
                 }
-                error={!!errors.fullname}
+                error={!!errors.username}
               />
             </FormControl>
           </Grid>
@@ -115,7 +116,7 @@ Props) {
             </FormControl>
           </Grid>
 
-          <Grid size={12}>
+          {/* <Grid size={12}>
             <FormControl fullWidth>
               <TextField
                 label="Tipo"
@@ -141,7 +142,7 @@ Props) {
                 error={!!errors.password}
               />
             </FormControl>
-          </Grid>
+          </Grid> */}
 
           {/* <Grid size={12}>
             <FormGroup>

@@ -9,7 +9,7 @@ interface ColumnsProps {
 
 export const usersColumns = ({ handleDelete }: ColumnsProps) => [
   {
-    field: "fullname",
+    field: "username",
     headerName: "Nome",
     flex: 1,
   },
