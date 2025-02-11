@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useRef } from "react";
 import { Provider } from "react-redux";
-import { makeStore, AppStore } from "../lib/store";
+import { persistor, store, AppStore } from "../lib/store";
 import { PersistGate } from "redux-persist/integration/react";
 
 export default function StoreProvider({
@@ -11,14 +12,14 @@ export default function StoreProvider({
 }) {
   const storeRef = useRef<AppStore>(undefined);
   if (!storeRef.current) {
-    storeRef.current = makeStore();
+    storeRef.current = store;
   }
 
   return (
     <Provider store={storeRef.current}>
-      <PersistGate persistor={storeRef.current.__persistor} loading={null}>
-        {children}
-      </PersistGate>
+        <PersistGate persistor={persistor || {} as any} loading={null}>
+          {children}
+        </PersistGate>
     </Provider>
   );
 }

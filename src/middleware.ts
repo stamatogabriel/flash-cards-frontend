@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { NextResponse } from "next/server"
 
 // List of routes that require authentication
-const protectedRoutes = ["/users"]
+const protectedRoutes = ["/dashboard"]
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth
@@ -11,7 +11,7 @@ export default auth((req) => {
   )
 
   if (isProtectedRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/auth/signin", req.url))
+    return NextResponse.redirect(new URL("/signin", req.url))
   }
 
   // Allow the request to proceed

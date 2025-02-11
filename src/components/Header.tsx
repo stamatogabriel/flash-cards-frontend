@@ -11,9 +11,12 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
+import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { Avatar, Tooltip } from "@mui/material";
+import { useAppSelector } from "@/hooks/useStore";
 
-const pages = ["Products", "Pricing", "Blog"];
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Como funciona", "Preços"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 interface Props {
   toggle: () => void;
@@ -21,6 +24,8 @@ interface Props {
 }
 
 export function Header({ toggle, theme }: Props) {
+  const { user } = useAppSelector((state) => state.user);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -113,40 +118,65 @@ export function Header({ toggle, theme }: Props) {
               </Button>
             ))}
           </Box>
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {!user && (
+            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+              <Button
+                href="/login"
+                variant="text"
+                color="inherit"
+                sx={{ display: { xs: "none", md: "block" }, mr: 2 }}
+              >
+                Entrar
+              </Button>
+              <Button
+                href="/register"
+                variant="contained"
+                color="primary"
+                sx={{ display: { xs: "none", md: "block" } }}
+              >
+                Cadastre-se
+              </Button>
+            </Box>
+          )}
+          {user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt={user?.username}
+                    src="/static/images/avatar/2.jpg"
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography sx={{ textAlign: "center" }}>
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
           <IconButton sx={{ ml: 1 }} onClick={toggle} color="inherit">
             {theme === "dark" ? <Brightness7 /> : <Brightness4 />}
-          </IconButton> */}
+          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>

@@ -32,10 +32,10 @@ export const UserCreate = () => {
 
   return (
     <Box>
-      <Paper>
-        <Box p={2}>
+      <Paper sx={{ p: 3 }}>
+        <Box>
           <Box mb={2}>
-            <Typography variant="h4">Novo usuário</Typography>
+            <Typography variant="h5">Cadastre-se</Typography>
           </Box>
         </Box>
         <UserForm
