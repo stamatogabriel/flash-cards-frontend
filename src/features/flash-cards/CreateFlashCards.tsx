@@ -11,7 +11,7 @@ export function CreateFlashCards() {
   const [createFlashCard, status] = useCreateFlashCardMutation();
 
   const handleSubmit = (values: any) => {
-    createFlashCard(values);
+    createFlashCard({...values, signatureId: '67df0e8aa40492ad85863e15' });
   };
 
   return (

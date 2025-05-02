@@ -8,14 +8,32 @@ import { Box, Grid2 as Grid } from "@mui/material";
 import { CheckoutResume } from "./components/Resume";
 import { useAppSelector } from "@/hooks/useStore";
 import { MPBriksComponent } from "./components/MPBriksComponent";
+import { useGetPlanByIdQuery } from "../plans/plansSlice";
+import { useEffect } from "react";
 
-export function CheckoutComponent() {
+interface Props {
+  planId: string;
+}
+
+export function CheckoutComponent({ planId }: Props) {
   const [createUser, userStatus] = useCreateUserMutation();
   const { user } = useAppSelector((state) => state.user);
+  const { isFetching, data: plan, isError } = useGetPlanByIdQuery(planId, {
+    skip: !planId,
+  });
+
+  console.log(plan)
 
   const handleSubmit: SubmitHandler<FieldValues> = (data: any) => {
     createUser(data);
   };
+
+  useEffect(() => {
+    if (isError) {
+      console.error("Erro ao buscar o plano");
+    }
+  }
+  , [isError]);
 
   return (
     <Box sx={{ pt: 20, minHeight: "calc(100vh - 210px)" }}>
@@ -37,7 +55,7 @@ export function CheckoutComponent() {
           )}
         </Grid>
         <Grid size={{ sm: 12, md: 6 }}>
-          <CheckoutResume />
+          <CheckoutResume plan={plan} isFetching={isFetching} />
         </Grid>
       </Grid>
     </Box>

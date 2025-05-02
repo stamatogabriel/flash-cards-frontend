@@ -1,13 +1,13 @@
 "use client";
 
 import { FlashCards } from "@/features/flash-cards/components/FlashCards";
-import { useGetFlashCardsQuery } from "@/features/flash-cards/flashCardsSlice";
+import { useGetFlashCardsToSiteQuery } from "@/features/flash-cards/flashCardsSlice";
 import { Box, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
 
 export function ExamplesComponent() {
-  const { isFetching, data, isError } = useGetFlashCardsQuery({});
+  const { isFetching, data, isError } = useGetFlashCardsToSiteQuery();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -16,12 +16,14 @@ export function ExamplesComponent() {
     }
   }, [enqueueSnackbar, isError]);
 
+  console.log("data", data);
+
   return (
     <Box mt={5} mb={5}>
       <Typography variant="h4" sx={{ mt: 5, textAlign: "center" }}>
         Exemplos de Flashcards
       </Typography>
-      <FlashCards cards={data?.data ?? []} isFetching={isFetching} />
+      <FlashCards cards={data ?? []} isFetching={isFetching} />
     </Box>
   );
 }

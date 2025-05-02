@@ -42,6 +42,10 @@ function getFlashCardsByTopic(topic: string) {
   return `${endpoint}/topic/${topic}`;
 }
 
+function getFlashCardsToSite() {
+  return `${endpoint}/to-site`;
+}
+
 export const flashCardApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     getFlashCards: query<IFlashCardResponse, IFlashCardRequest>({
@@ -63,7 +67,11 @@ export const flashCardApiSlice = apiSlice.injectEndpoints({
     getFlashCardsByTopic: query<IFlashCardResponse, string>({
       query: (topic) => getFlashCardsByTopic(topic),
       providesTags: ["flash-cards"]
-    })
+    }),
+    getFlashCardsToSite: query<IFlashCard[], void>({
+      query: () => getFlashCardsToSite(),
+      providesTags: ["flash-cards"]
+    }),
   }),
 });
 
@@ -73,4 +81,5 @@ export const {
   useGetTopicsQuery,
   useGetFlashCardByIdQuery,
   useGetFlashCardsByTopicQuery,
+  useGetFlashCardsToSiteQuery,
 } = flashCardApiSlice;

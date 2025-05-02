@@ -102,7 +102,7 @@ Props) {
             </FormControl>
           </Grid>
 
-          <Grid size={12}>
+          {/* <Grid size={12}>
             <FormControl fullWidth>
               <TextField
                 label="Telefone"
@@ -114,7 +114,7 @@ Props) {
                 error={!!errors.phone}
               />
             </FormControl>
-          </Grid>
+          </Grid> */}
 
           {/* <Grid size={12}>
             <FormControl fullWidth>

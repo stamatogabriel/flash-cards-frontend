@@ -1,21 +1,16 @@
-'use client';
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Paper, Typography } from "@mui/material";
 import { FormAuth } from "./components/FormAuth";
-import { useLoginMutation } from "./authSlice";
-import { signIn } from "next-auth/react";
+import { login } from "@/lib/actions/auth";
+// import { useLoginMutation } from "./authSlice";
 
 export function SignInComponent() {
-  const [signinMutation, status] = useLoginMutation();
+  // const [signinMutation, status] = useLoginMutation();
 
   const handleSubmit = async (data: any) => {
-    signinMutation(data);
-    await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      callbackUrl: '/dashboard', // URL de redirecionamento após o login bem-sucedido
-    });
-    console.log(status?.data);
+    // signinMutation(data);
+   login(data);
   };
 
   return (
@@ -26,7 +21,7 @@ export function SignInComponent() {
             <Typography variant="h4">Sign In</Typography>
           </Box>
         </Box>
-        <FormAuth isLoading={status.isLoading} onSubmit={handleSubmit} />
+        <FormAuth isLoading={false} onSubmit={handleSubmit} />
       </Paper>
     </Box>
   );

@@ -14,9 +14,13 @@ import Image from "next/image";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { useAppSelector } from "@/hooks/useStore";
+import { useRouter } from "next/navigation";
 
 const pages = ["Como funciona", "Preços"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  { path: "/dashboard/flashcards", name: "Flash Cards" },
+  { path: "/dashboard/profile", name: "Meus dados" },
+];
 
 interface Props {
   toggle: () => void;
@@ -25,6 +29,7 @@ interface Props {
 
 export function Header({ toggle, theme }: Props) {
   const { user } = useAppSelector((state) => state.user);
+  const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -44,8 +49,9 @@ export function Header({ toggle, theme }: Props) {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (path: string) => {
     setAnchorElUser(null);
+    router.push(path);
   };
 
   return (
@@ -165,9 +171,9 @@ export function Header({ toggle, theme }: Props) {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem key={setting.name} onClick={() => handleCloseUserMenu(setting.path)}>
                     <Typography sx={{ textAlign: "center" }}>
-                      {setting}
+                      {setting.name}
                     </Typography>
                   </MenuItem>
                 ))}

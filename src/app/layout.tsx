@@ -3,8 +3,6 @@ import StoreProvider from "@/providers/StoreProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
 import { Roboto } from "next/font/google";
-import AuthProvider from "@/providers/AuthProvider";
-import { auth } from "@/auth";
 import { Layout } from "@/components/Layout";
 
 const roboto = Roboto({
@@ -25,26 +23,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <html lang="en">
-      <head>
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}`}
-          crossOrigin="anonymous"
-        />
-      </head>
-      <StoreProvider>
-        <AuthProvider session={session}>
-          <body className={roboto.variable}>
-            <AppRouterCacheProvider>
-              <Layout>{children}</Layout>
-            </AppRouterCacheProvider>
-          </body>
-        </AuthProvider>
-      </StoreProvider>
+      <body className={roboto.variable}>
+        <StoreProvider>
+          <AppRouterCacheProvider>
+            <Layout>{children}</Layout>
+          </AppRouterCacheProvider>
+        </StoreProvider>
+      </body>
     </html>
   );
 }

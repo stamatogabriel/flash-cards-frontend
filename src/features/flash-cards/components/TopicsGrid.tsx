@@ -1,4 +1,5 @@
 import { Box, Grid2 as Grid, Skeleton, Typography } from "@mui/material";
+import Link from "next/link";
 
 type Props = {
   data: string[];
@@ -6,6 +7,16 @@ type Props = {
 };
 
 export function TopicsGrid({ data, isFetching }: Props) {
+  if (!isFetching && data.length === 0) {
+    return (
+      <Box sx={{ textAlign: 'center', mt: 3 }}>
+        <Typography variant="h6">
+          Não há flashcards criados, <Link href="/dashboard/flashcards/create">que tal começar agora?</Link>
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <Grid container spacing={2} mt={3}>

@@ -1,19 +1,18 @@
 "use client";
 
-import { AppBar, Box, CssBaseline, ThemeProvider } from "@mui/material";
-import { Container } from "@mui/system";
+import { AppBar, Box, CssBaseline } from "@mui/material";
+import { Container, ThemeProvider } from "@mui/system";
 import { SnackbarProvider } from "notistack";
 import React, { useState } from "react";
-import { useAppTheme } from "../hooks/useAppTheme";
-// import { Header } from "./Header";
+import { LoggedHeader } from "./LoggedHeader";
 import ResponsiveDrawer from "./ResponsiveDrawer";
-import { SessionProvider } from "next-auth/react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const drawerWidth = 240;
 
 export function LoggedLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [currentTheme, /* toggleCurrentTheme */] = useAppTheme();
+  const [currentTheme, toggleCurrentTheme] = useAppTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -21,36 +20,34 @@ export function LoggedLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeProvider theme={currentTheme}>
-      <SessionProvider>
-        <CssBaseline />
-        <Box sx={{ display: "flex" }}>
-          <AppBar
-            position="fixed"
-            sx={{
-              width: { sm: `calc(100% - ${drawerWidth}px)` },
-              ml: { sm: `${drawerWidth}px` },
-            }}
-          >
-            {/* <Header
-              handleDrawerToggle={handleDrawerToggle}
-              toggle={toggleCurrentTheme}
-              theme={currentTheme.palette.mode === "dark" ? "dark" : "light"}
-            /> */}
-          </AppBar>
+      <CssBaseline />
+      <Box sx={{ display: "flex" }}>
+        <AppBar
+          position="fixed"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}
+        >
+          <LoggedHeader
+            handleDrawerToggle={handleDrawerToggle}
+            toggle={toggleCurrentTheme}
+            theme={currentTheme.palette.mode === "dark" ? "dark" : "light"}
+          />
+        </AppBar>
 
-          <ResponsiveDrawer open={mobileOpen} onClose={handleDrawerToggle} />
+        <ResponsiveDrawer open={mobileOpen} onClose={handleDrawerToggle} />
 
-          <SnackbarProvider
-            autoHideDuration={2000}
-            maxSnack={3}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          >
-            <Container maxWidth="lg" sx={{ color: "white", my: 12 }}>
-              {children}
-            </Container>
-          </SnackbarProvider>
-        </Box>
-      </SessionProvider>
+        <SnackbarProvider
+          autoHideDuration={2000}
+          maxSnack={3}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Container maxWidth="lg" sx={{ mx: "auto", pt: 8 }}>
+            {children}
+          </Container>
+        </SnackbarProvider>
+      </Box>
     </ThemeProvider>
   );
 }

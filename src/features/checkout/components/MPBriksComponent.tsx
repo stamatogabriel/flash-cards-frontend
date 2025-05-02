@@ -46,7 +46,7 @@ export function MPBriksComponent() {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/signatures`;
 
       const paymentRequest = {
-        signature_type: "teste",
+        plan_id: "67aa92e6c94be053a9bb85d8",
         signature_value: formData.transaction_amount.toString(),
         status: "awaiting_payment",
         user_id: user?._id,
@@ -93,7 +93,7 @@ export function MPBriksComponent() {
     });
   };
   const onError = async (error: unknown) => {
-    console.log(error);
+    console.error(error);
   };
   const onReady = async () => {
     console.log("MP Briks ready");

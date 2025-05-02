@@ -1,5 +1,5 @@
-import { CreateFlashCards } from "@/features/flash-cards/CreateFlashCards";
+import TopicsList from "@/features/flash-cards/TopicsList";
 
-export default function CreateFlashCardsPage() {
-  return <CreateFlashCards />;
+export default function FlashCardsPage() {
+  return <TopicsList />;
 }
