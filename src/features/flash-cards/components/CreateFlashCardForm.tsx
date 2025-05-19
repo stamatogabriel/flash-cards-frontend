@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { createFlashCardsValidation } from "../validations/createFlashCards.validation";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Grid2 as Grid, TextField } from "@mui/material";
+import { Box, Button, Grid2 as Grid, TextField, Paper, Typography, useTheme } from "@mui/material";
 
 interface Props {
   isDisabled: boolean;
@@ -16,6 +16,7 @@ export function CreateFlashCardForm({
   isLoading,
   onSubmit,
 }: Props) {
+  const theme = useTheme();
   const validationSchema = useMemo(() => createFlashCardsValidation, []);
 
   const {
@@ -28,9 +29,33 @@ export function CreateFlashCardForm({
   });
 
   return (
-    <Box p={2} mt={3} sx={{ maxWidth: 600, margin: "auto" }}>
+    <Paper 
+      elevation={2} 
+      sx={{ 
+        p: { xs: 2, md: 3 }, 
+        mt: 3, 
+        maxWidth: 600, 
+        margin: "0 auto",
+        borderRadius: 2,
+        backgroundColor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+      }}
+    >
+      <Typography 
+        variant="h5" 
+        component="h2" 
+        gutterBottom 
+        align="center" 
+        sx={{ 
+          mb: 3,
+          color: theme.palette.text.primary,
+          fontWeight: 500
+        }}
+      >
+        Configure seu Novo Deck de Flashcards
+      </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={1}>
+        <Grid container spacing={3}>
           <Grid size={12}>
             <TextField
               fullWidth
@@ -41,29 +66,70 @@ export function CreateFlashCardForm({
               {...register("topic")}
               error={!!errors.topic}
               helperText={errors.topic?.message?.toString()}
+              InputLabelProps={{ shrink: true }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover fieldset': {
+                    borderColor: theme.palette.primary.main,
+                  },
+                },
+              }}
             />
           </Grid>
           <Grid size={12}>
             <TextField
               fullWidth
-              label="Número de cards"
+              label="Número de cards a gerar"
               disabled={isLoading}
               margin="normal"
               variant="outlined"
               type="number"
-              InputProps={{ inputProps: { min: 0, max: 10 } }}
-              {...register("quantityCards")}
+              InputProps={{ 
+                inputProps: { min: 1, max: 10 },
+                sx: { 
+                  '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button': {
+                    opacity: 1
+                  }
+                }
+              }}
+              {...register("quantityCards", { valueAsNumber: true })}
               error={!!errors.quantityCards}
-              helperText={errors.quantityCards?.message?.toString()}
+              helperText={errors.quantityCards?.message?.toString() || "Quantos flashcards você deseja gerar sobre este tema? (1-10)"}
+              InputLabelProps={{ shrink: true }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover fieldset': {
+                    borderColor: theme.palette.primary.main,
+                  },
+                },
+              }}
             />
           </Grid>
         </Grid>
-        <Box mt={2}>
-          <Button type="submit" disabled={isDisabled || isLoading} sx={{ margin: "0 0 0 auto"}}>
-            {isLoading ? 'Carregando cards...' : 'Criar Flashcards'}
+        <Box 
+          mt={4} 
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'flex-end',
+            '& button': {
+              minWidth: '160px',
+              backgroundColor: theme.palette.primary.main,
+              '&:hover': {
+                backgroundColor: theme.palette.primary.dark,
+              }
+            }
+          }}
+        >
+          <Button 
+            type="submit" 
+            variant="contained" 
+            disabled={isDisabled || isLoading}
+            size="large"
+          >
+            {isLoading ? 'Gerando Flashcards...' : 'Gerar Flashcards'}
           </Button>
         </Box>
       </Box>
-    </Box>
+    </Paper>
   );
 }

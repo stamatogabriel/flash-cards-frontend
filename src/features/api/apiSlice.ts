@@ -5,7 +5,7 @@ export const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ['auth', 'users', 'flash-cards', 'topics', 'plans'],
+  tagTypes: ['auth', 'users', 'flash-cards', 'topics', 'plans', 'signatures'],
   endpoints: () => ({}),
   baseQuery: fetchBaseQuery({
     baseUrl,

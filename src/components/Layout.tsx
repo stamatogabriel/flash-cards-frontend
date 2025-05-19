@@ -6,9 +6,13 @@ import { Container, CssBaseline } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { usePathname } from "next/navigation";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [currentTheme, toggleTheme] = useAppTheme();
+  const pathname = usePathname();
+
+  const isPublicRoute = !pathname?.startsWith("/dashboard");
 
   return (
     <ThemeProvider theme={currentTheme}>
@@ -18,7 +22,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         maxSnack={3}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        {!window.location.pathname.includes("dashboard") && (
+        {isPublicRoute && (
           <Header
             theme={currentTheme.palette.mode === "dark" ? "dark" : "light"}
             toggle={toggleTheme}
@@ -27,9 +31,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Container maxWidth="lg" sx={{ mx: "auto" }}>
           {children}
         </Container>
-        {!window.location.pathname.includes("dashboard") && (
-        <Footer />
-        )}
+        {isPublicRoute && <Footer />}
       </SnackbarProvider>
     </ThemeProvider>
   );

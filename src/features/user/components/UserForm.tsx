@@ -10,6 +10,7 @@ import {
   Skeleton,
   // Switch,
   TextField,
+  useTheme,
 } from "@mui/material";
 
 import Link from "next/link";
@@ -34,6 +35,7 @@ export function UserForm({
   onSubmit,
 }: // handleToggle,
 Props) {
+  const theme = useTheme();
   const {
     register,
     handleSubmit,
@@ -84,6 +86,14 @@ Props) {
                   errors.username ? String(errors.username.message) : ""
                 }
                 error={!!errors.username}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '&:hover fieldset': {
+                      borderColor: theme.palette.primary.main,
+                    },
+                  },
+                }}
               />
             </FormControl>
           </Grid>
@@ -98,6 +108,14 @@ Props) {
                 disabled={isdisabled}
                 helperText={errors.email ? String(errors.email.message) : ""}
                 error={!!errors.email}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '&:hover fieldset': {
+                      borderColor: theme.palette.primary.main,
+                    },
+                  },
+                }}
               />
             </FormControl>
           </Grid>
@@ -163,16 +181,43 @@ Props) {
             </FormGroup>
           </Grid> */}
           <Grid size={12}>
-            <Box display="flex" gap={2}>
-              <Link href="/users" passHref>
-                <Button variant="contained">Voltar</Button>
+            <Box 
+              display="flex" 
+              gap={2} 
+              sx={{ 
+                justifyContent: 'flex-end',
+                mt: 2,
+                '& button': {
+                  minWidth: '120px',
+                }
+              }}
+            >
+              <Link href="/dashboard" passHref>
+                <Button 
+                  variant="outlined"
+                  sx={{
+                    borderColor: theme.palette.grey[400],
+                    color: theme.palette.text.primary,
+                    '&:hover': {
+                      borderColor: theme.palette.grey[600],
+                      backgroundColor: theme.palette.grey[50],
+                    }
+                  }}
+                >
+                  Voltar
+                </Button>
               </Link>
 
               <Button
                 type="submit"
                 variant="contained"
-                color="secondary"
                 disabled={isdisabled || isLoading}
+                sx={{
+                  backgroundColor: theme.palette.primary.main,
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
+                  }
+                }}
               >
                 {isLoading ? "Salvando..." : "Salvar"}
               </Button>

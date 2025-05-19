@@ -13,10 +13,14 @@ export function HomeComponent() {
     <>
       <HeroBanner />
       <Box sx={{ mt: "calc(100vh + 3rem)" }} />
-      <HowItWorks />
+      <Box id="como-funciona">
+        <HowItWorks />
+      </Box>
       <AdBanner />
       <ExamplesComponent />
-      <Pricing />
+      <Box id="precos">
+        <Pricing />
+      </Box>
       <AdBanner />
       <Faq />
     </>

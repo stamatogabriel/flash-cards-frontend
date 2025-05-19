@@ -38,8 +38,8 @@ function getFlashCardById(id: string) {
   return `${endpoint}/${id}`;
 }
 
-function getFlashCardsByTopic(topic: string) {
-  return `${endpoint}/topic/${topic}`;
+function getFlashCardsByTopic(topicId: string) {
+  return `${endpoint}/topics/${topicId}`;
 }
 
 function getFlashCardsToSite() {
@@ -56,7 +56,7 @@ export const flashCardApiSlice = apiSlice.injectEndpoints({
       query: (data) => createFlashCard(data),
       invalidatesTags: ["flash-cards"]
     }),
-    getTopics: query<string[], void>({
+    getTopics: query<{ _id: string; name: string }[], void>({
       query: () => getTopics(),
       providesTags: ["topics"]
     }),
@@ -64,7 +64,7 @@ export const flashCardApiSlice = apiSlice.injectEndpoints({
       query: (id) => getFlashCardById(id),
       providesTags: ["flash-cards"]
     }),
-    getFlashCardsByTopic: query<IFlashCardResponse, string>({
+    getFlashCardsByTopic: query<IFlashCard[], string>({
       query: (topic) => getFlashCardsByTopic(topic),
       providesTags: ["flash-cards"]
     }),

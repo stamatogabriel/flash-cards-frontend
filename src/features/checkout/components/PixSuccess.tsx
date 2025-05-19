@@ -3,12 +3,19 @@
 
 import { useAppSelector } from "@/hooks/useStore";
 import { Box, Button, Paper, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function PixSuccess() {
   const { pix } = useAppSelector((state) => state.checkout);
+  const router = useRouter();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(pix?.qrCode ?? "");
+  };
+
+  const handleGoToDashboard = () => {
+    router.push("/dashboard/flashcards");
   };
 
   return (
@@ -38,7 +45,14 @@ export function PixSuccess() {
             alt="QR Code"
             style={{ height: 200, marginBottom: 20, borderRadius: 5 }}
           />
-          <Button onClick={copyToClipboard}>Copiar QR Code</Button>
+          <Button onClick={copyToClipboard} sx={{ mb: 2 }}>Copiar QR Code</Button>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={handleGoToDashboard}
+          >
+            Ir para minha conta
+          </Button>
         </Box>
       </Paper>
     </Box>

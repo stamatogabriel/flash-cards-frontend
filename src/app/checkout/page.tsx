@@ -1,11 +1,10 @@
 import { CheckoutComponent } from "@/features/checkout/CheckoutComponent";
+import { PageProps } from "../../../.next/types/app/page";
 
-export default function Checkout({
+export default async function Checkout({
   searchParams,
-}: {
-  searchParams: { plan?: string };
-}) {
-  const planId = searchParams.plan;
+}: PageProps) {
+  const planId = (await searchParams)?.plan || '';
 
-  return <CheckoutComponent planId={planId || ""} />;
+  return <CheckoutComponent planId={planId} />;
 }

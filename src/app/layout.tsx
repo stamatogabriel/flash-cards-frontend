@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import StoreProvider from "@/providers/StoreProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-
 import { Roboto } from "next/font/google";
 import { Layout } from "@/components/Layout";
 

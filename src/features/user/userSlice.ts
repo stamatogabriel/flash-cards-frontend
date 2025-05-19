@@ -43,6 +43,10 @@ function getUser({ id }: { id: string }) {
   return `${endpointUrl}/${id}`
 }
 
+function getCurrentUser() {
+  return `${endpointUrl}/me`
+}
+
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     deleteUser: mutation<void, IUser>({
@@ -61,9 +65,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
       query: getUser,
       providesTags: ['users'],
     }),
+    getCurrentUser: query<IUser, void>({
+      query: getCurrentUser,
+      providesTags: ['users'],
+    }),
   })
 })
-
 
 const userSlice = createSlice({
   name: 'user',
@@ -74,6 +81,10 @@ const userSlice = createSlice({
     },
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
+    },
+    clearUser(state) {
+      state.user = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -92,6 +103,11 @@ const userSlice = createSlice({
       (state, action: PayloadAction<IUser>) => {
         state.user = action.payload;
       });
+    builder.addMatcher(
+      userApiSlice.endpoints.getCurrentUser.matchFulfilled,
+      (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
+      });
   },
 });
 
@@ -100,9 +116,10 @@ export const {
   useCreateUserMutation,
   useUpdateUserMutation,
   useGetUserQuery,
+  useGetCurrentUserQuery,
 } = userApiSlice;
 
-export const { setLoading, setError } = userSlice.actions;
+export const { setLoading, setError, clearUser } = userSlice.actions;
 
 export default userSlice.reducer;
 
