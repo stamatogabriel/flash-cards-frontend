@@ -9,6 +9,7 @@ interface CheckoutState {
   paymentType: string | null;
   pix: Pix;
   status: string | null;
+  errorMessage: string | null;
 }
 
 const initialState: CheckoutState = {
@@ -18,6 +19,7 @@ const initialState: CheckoutState = {
     qrCodeBase64: null
   },
   status: null,
+  errorMessage: null,
 };
 
 interface SetPixPayload {
@@ -37,10 +39,13 @@ export const checkoutSlice = createSlice({
     },
     setStatus: (state: CheckoutState, action: PayloadAction<string>) => {
       state.status = action.payload;
+    },
+    setErrorMessage: (state: CheckoutState, action: PayloadAction<string>) => {
+      state.errorMessage = action.payload;
     }
   },
 });
 
-export const { setPaymentType, setPix, setStatus } = checkoutSlice.actions;
+export const { setPaymentType, setPix, setStatus, setErrorMessage } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

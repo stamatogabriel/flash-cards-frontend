@@ -6,14 +6,26 @@ import { useEffect } from "react";
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 export function Pricing() {
-  const { isFetching, data, isError } = useGetPlansQuery();
+  const { isFetching, data, isError, error } = useGetPlansQuery();
   const theme = useTheme();
   
   useEffect(() => {
     if (isError) {
-      console.error("Erro ao buscar os planos");
+      console.error("Erro ao buscar os planos:", error);
+      
+      if (error && 'status' in error) {
+        console.error("Detalhes do erro de fetch:", {
+          status: error.status,
+          data: error.data
+        });
+      } else if (error && 'message' in error) {
+        console.error("Detalhes do erro serializado:", {
+          message: error.message,
+          code: error.code
+        });
+      }
     }
-  }, [isError]);
+  }, [error, isError]);
 
   return (
     <Container maxWidth="lg">
@@ -35,6 +47,15 @@ export function Pricing() {
         {isFetching ? (
           <Box sx={{ textAlign: 'center', py: 3 }}>
             <Typography>Carregando planos...</Typography>
+          </Box>
+        ) : isError ? (
+          <Box sx={{ textAlign: 'center', py: 3 }}>
+            <Typography color="error" variant="h6" gutterBottom>
+              Erro ao carregar planos
+            </Typography>
+            <Typography color="text.secondary">
+              Não foi possível carregar os planos. Verifique sua conexão com a internet e tente novamente.
+            </Typography>
           </Box>
         ) : (
           <Grid container spacing={4}>

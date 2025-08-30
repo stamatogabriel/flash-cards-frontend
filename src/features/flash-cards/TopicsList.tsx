@@ -1,18 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { Box, Typography, useTheme, alpha } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { TopicsGrid } from "./components/TopicsGrid";
 import { useGetTopicsQuery, useGetFlashCardsByTopicQuery } from "./flashCardsSlice";
 import { useState } from "react";
 import { FlashCards } from "./components/FlashCards";
-import SchoolIcon from '@mui/icons-material/School';
-import { useRouter } from "next/navigation";
 import { CreateFlashCardForm } from "./components/CreateFlashCardForm";
 
 export default function TopicsList() {
   const theme = useTheme();
-  const router = useRouter();
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedTopicName, setSelectedTopicName] = useState<string | null>(null);
   const { data: topics, isFetching: isTopicsLoading } = useGetTopicsQuery();

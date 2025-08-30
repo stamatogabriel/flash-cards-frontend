@@ -86,6 +86,10 @@ const userSlice = createSlice({
       state.user = null;
       state.error = null;
     },
+    setUser(state, action: PayloadAction<IUser>) {
+      state.user = action.payload;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -119,7 +123,7 @@ export const {
   useGetCurrentUserQuery,
 } = userApiSlice;
 
-export const { setLoading, setError, clearUser } = userSlice.actions;
+export const { setLoading, setError, clearUser, setUser } = userSlice.actions;
 
 export default userSlice.reducer;
 

@@ -4,7 +4,6 @@
 import { useAppSelector } from "@/hooks/useStore";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export function PixSuccess() {
   const { pix } = useAppSelector((state) => state.checkout);

@@ -2,17 +2,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
-import { setPix, setPaymentType, setStatus } from "../checkoutSlice";
+import { setPix, setPaymentType, setStatus, setErrorMessage } from "../checkoutSlice";
 import { Payment, initMercadoPago } from "@mercadopago/sdk-react";
 import { IPaymentBrickCustomization } from "@mercadopago/sdk-react/esm/bricks/payment/type";
 import { Paper } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export function MPBriksComponent() {
   const { user } = useAppSelector((state) => state.user);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const initialization = {
     amount: 100,
@@ -42,6 +43,7 @@ export function MPBriksComponent() {
     selectedPaymentMethod: string;
     formData: any;
   }) => {
+    setIsProcessing(true);
     return new Promise((resolve, reject) => {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/signatures`;
 
@@ -57,10 +59,19 @@ export function MPBriksComponent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json"
         },
+        credentials: 'include',
         body: JSON.stringify(paymentRequest),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then(errorData => {
+              throw new Error(errorData.message || 'Erro ao processar pagamento');
+            });
+          }
+          return response.json();
+        })
         .then((response) => {
           if (response.qrCode) {
             dispatch(setPaymentType("pix"));
@@ -88,13 +99,32 @@ export function MPBriksComponent() {
         })
         .catch((error) => {
           console.error(error);
-          reject();
+          const errorMessages: { [key: string]: string } = {
+            'You already have an active subscription for this plan': 'Você já possui uma assinatura ativa para este plano',
+            'Plan not found': 'Plano não encontrado',
+            'Payment amount does not match plan value': 'O valor do pagamento não corresponde ao valor do plano',
+            'Payment Refused': 'Pagamento recusado',
+            'Error creating signature': 'Erro ao criar assinatura'
+          };
+
+          const errorMessage = errorMessages[error.message] || 'Ocorreu um erro ao processar seu pagamento. Por favor, tente novamente.';
+          
+          dispatch(setStatus("error"));
+          dispatch(setErrorMessage(errorMessage));
+          router.push("/checkout/error");
+          reject(error);
+        })
+        .finally(() => {
+          setIsProcessing(false);
         });
     });
   };
+
   const onError = async (error: unknown) => {
     console.error(error);
+    setIsProcessing(false);
   };
+
   const onReady = async () => {
     console.log("MP Briks ready");
   };
